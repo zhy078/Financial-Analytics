@@ -1,0 +1,218 @@
+---
+title: "Data Preparation Workshop"
+author: "Nursen Aydin"
+date: "Week 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
+```
+
+In this workshop, we will practise data encoding, data partitioning (training and test split) and balancing techniques. Let's first load the required packages and import our dataset **CreditDefault.csv**. This data file was adapted from [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)).
+The data contains information on loans obtained from a credit agency.
+Use `read.csv()` function to import the dataset. 
+
+```{r  message=FALSE, eval=FALSE}
+
+# Load caTools package for data partitioning
+library(---) 
+
+# Load ROSE package for data balancing
+library(---) 
+
+# Import our data and save it to variable creditdf
+--- <- read.csv(---)
+
+```
+
+***
+
+The data file contains information of 1000 loan applicants such as credit history, loan amount, loan duration in months, purpose of the loan  etc. The target feature is located at the last column "default" and shows the applicants' default status. This column indicates whether the loan applicant is went into default (Yes) or not (No). Loan default occurs when a borrower fails to pay back a debt according to the initial arrangement.
+
+1. Check the structure of the dataset. Are the data types (or measurement levels) correct?
+
+
+```{r  message=FALSE}
+
+# Check the structure of the variables in the dataframe by using str() function
+
+
+```
+
+
+2. Data science team identifies variable "credit_history" for label encoding (since it is an ordinal variable). The levels (or categories) of this variable are ranked as follows:
+
+- "credit_history": critical < poor < good < very good < perfect with labels from 1 to 5
+
+For label encoding, we will use `revalue` function from `plyr` package. The basic syntax of this function is given as follows:
+
+      revalue(column name, c("level name" = "label"))
+
+The first argument is the variable name that we would like to apply label encoding and the second argument is the vector of levels with the associated labels. For instance, level "critical" will be labeled as "1".
+
+We apply data encoding for machine learning models that may not work well with categorical variables. Therefore, after this step, we should save the variable as a numeric variable with `as.numeric` function.  
+
+Let's apply label encoding to "credit_history" variable.
+
+```{r  message=FALSE, eval = FALSE}
+
+# If plyr pachage is not installed before:
+# install.packages("plyr")
+
+# Load plyr package for data encoding
+library(---)
+
+# Apply label encoding to credit_history
+creditdf$credit_history <- revalue(---, c("---" = "1", "---" = "2", "---" = "3", "---" = "4", "---" = "5"))
+
+# Save credit_history as a numerical variable
+creditdf$credit_history <- ---
+
+```
+
+"phone" variable has two levels which are yes or no. When we have two levels, we set one of them to 0 and the other one to 1. In this case, we set yes = 1 and no = 0. Here, 0 represents the absence, and 1 represents the presence of that category.
+
+```{r  message=FALSE, eval = FALSE}
+
+# Apply label encoding to phone
+creditdf$phone <- revalue(---, c("---" = "1", "---" = "0"))
+
+# Save credit_history as a numerical variable
+creditdf$phone <- as.numeric(---)
+
+# Check the summary of the updated dataset
+
+
+```
+
+
+Now, we will apply one hot encoding to the nominal variable "purpose". We will use `one_hot` function from `mltools` package. The basic syntax of this function is given as follows:
+
+     one_hot(as.data.table(dataset), cols = column name)
+
+The first argument is our dataset. `one_hot` function works with data tables to process the datasets easily. Therefore, we need to first save our dataset as `data.table` by using `as.data.table(dataset)` function. The second argument stores the nominal variables (column names) that we would like to encode. Let's apply one hot encoding to "purpose" variable.
+
+```{r  message=FALSE, eval = FALSE}
+
+# Install mltools package 
+# install.packages("mltools")
+
+# Install data.table package
+# install.packages("data.table")
+
+# Load mltools package
+library(---)
+
+# Load data.table package
+library(---)
+
+# Apply one hot encoding
+creditdf <- one_hot(as.data.table(---), cols = ---)
+
+# Check the summary of the updated dataset
+
+
+```
+
+
+Now, we are ready to partition the dataset into training and test sets. 
+
+3. Split the dataset into the training set (70%) and test set (30%)  by using `sample.split()` and `subset()` functions. Do not forget to set the seed before data partitioning.
+
+```{r  message=FALSE, eval=FALSE}
+
+# Set a seed of 10 by using set.seed() function
+
+
+# Generate split vector to partition the data into training and test sets with training ratio of 0.70
+--- <- sample.split(---, SplitRatio = ---)   
+
+# Generate the training and test sets by subsetting the data records from actual dataset
+--- <- subset(---, --- == ---) 
+
+--- <- subset(---, --- == ---) 
+
+```
+
+***
+
+Next, we will balance training dataset. 
+
+4. We do not want to loose any data and hence, we want to apply oversampling technique. Balance the data with oversampling technique so that the minority class accounts for approximately 40% of the training dataset. Use `ovun.sample()` function with `method = "over"`.
+
+```{r  message=FALSE, eval=FALSE}
+
+# Apply oversampling technique
+oversampled <- ovun.sample(---, data = ---, method = ---, p=---, seed=---)$data
+
+```
+
+***
+
+5. Now, try both undersampling and oversampling method by using `ovun.sample()` function with `method = "both"`. Set the proportion of minority class as 0.4.
+
+```{r  message=FALSE, eval = FALSE}
+
+# Apply both over and under sampling technique
+bothsampled <- ovun.sample(---, data = ---, method = ---, p=---, seed=---)$data
+
+```
+
+***
+
+6. Compare the distribution of defaults in the initial training set with the oversampled training set and both over and under sampled training set. Use `table()` and `prob.table()` functions.
+
+Results from the initial training set:
+```{r  message=FALSE, eval = FALSE}
+
+# Check the distribution of defaults in the initial training set
+
+
+# Check the proportion of defaults in the initial training set
+
+
+```
+
+By using `barplot()` function, you can also plot the distribution of defaults as a bar chart.
+
+```{r  message=FALSE, eval = FALSE}
+
+# Use barplot() function to plot the distribution of defaults
+barplot(table(---), xlab= "Classes", ylab="Frequency")
+
+
+```
+
+
+
+Results from the oversampled training set:
+```{r  message=FALSE}
+
+# Check the distribution of defaults in the oversampled training set
+
+
+# Check the proportion of defaults in the oversampled training set
+
+
+# Plot the distribution by using barplot() function
+
+
+```
+
+
+Results from both over and under sampled training set:
+```{r  message=FALSE}
+
+# Check the distribution of defaults in "bothsampled" training set
+
+
+# Check the proportion of defaults in bothsampled training set
+
+
+# Plot the distribution by using barplot() function
+
+
+```
+
+

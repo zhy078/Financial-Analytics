@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1569232059612.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1570929191",
+    "id" : "138D08E",
+    "lastKnownWriteTime" : 1569231703,
+    "last_content_update" : 1569231703,
+    "path" : "d:/settings/ORSNA/Documents/R/AiP workshops/workshop 1/Data Cleaning Demo/DataCleaningDemo.Rmd",
+    "project_path" : "DataCleaningDemo.Rmd",
+    "properties" : {
+        "cursorPosition" : "187,86",
+        "scrollLine" : "174"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,162 @@
+---
+title: "Data Cleaning Demo 2"
+author: "Nursen Aydin"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
+```
+
+You will practise with data cleaning techniques in this workshop. Let's first install and load `tidyverse` package and import our dataset which was downloaded from `ISLR` package in R. For more information about the data file, you can check this [link](https://rdrr.io/cran/ISLR/man/Credit.html).
+
+To import the dataset, you can either use `read_csv()` (part of the `tidyverse` package) or `read.csv()` (is a built-in R function).
+
+**Note:** Do not forget to remove `eval=FALSE` after you complete each chunk.
+
+```{r  message=FALSE, eval=FALSE}
+
+# If tidyverse package is not installed, install it first. 
+# install.packages("tidyverse")
+
+# Load tidyverse package
+library(---)
+
+# Import our data and save it as crdata
+--- <- ---("Credit.csv")
+
+```
+
+Let's do the following tasks:
+
+1. View the first four rows of the dataset.
+2. Check the structure of the dataset. Are the data types (or measurement levels) correct?
+3. Check the summary of the dataset. In which columns we have missing values?
+
+```{r  message=FALSE, eval=FALSE}
+
+# View the first four rows with head()
+head(---, ---)  
+
+# Check the structure of the variables in the dataset by using str() function
+str(---)
+
+# Check the summary of the dataset
+summary(---)
+
+```
+
+Before handling the missing values, let's check "Age" column. Do you see anything strange?
+
+Let's check the box plot. We will use `boxplot()` function to perform this task.
+
+```{r message=FALSE, eval=FALSE}
+
+# Let's have a look at Age column of crdata with boxplot
+boxplot(crdata$---)
+
+```
+
+As it is seen from the box plot, we have outliers in "Age" column of our dataset.
+In the next task, we will remove these outliers.
+
+4. Find the indices of records(rows) with `crdata$Age >= 100` and assign these indices to *outliers*. Print the data records with outliers.
+
+```{r message=FALSE, eval=FALSE}
+
+# Find the indices of records with age >= 100 and assign these indices to outliers
+--- <- which(---)  
+
+# Print data records with outliers 
+print(crdata[---,])
+
+```
+
+5. Remove data records with `crdata$Age >= 100`. To remove data records in specific rows, you can use the following syntax:
+
+       dataframe[-rowindex,]
+
+This code will remove the rows stored in *rowindex* from the *dataframe*.
+
+```{r message=FALSE, eval=FALSE}
+
+# Remove data records with age >= 100 
+crdata <- crdata[---,] 
+
+```
+
+6. Check the new box plot. 
+
+```{r message=FALSE, eval=FALSE}
+
+# check the boxplot for Age column 
+boxplot(---)
+
+```
+
+7. Find the average income by excluding the missing values. Use `mean()` function with argument `na.rm = T`. Save result as *avg_income*.
+
+```{r message=FALSE, eval=FALSE}
+
+# Find the average income by excluding the missing values
+--- <- mean(---, ---)
+
+#print average income
+print(---)
+
+```
+
+8. Replace missing values in "Income" column with the average income using `replace_na()` function.
+
+```{r message=FALSE, eval=FALSE}
+
+# Replace missing values in Income column with average income
+crdata <- replace_na(---, list(--- = ---))
+
+```
+
+9. Remove data records with missing values by using `na.omit()` function. Save the result as *crdata_updated*.
+
+```{r message=FALSE, eval=FALSE}
+
+# Remove records with missing values and assign it to crdata_removed
+--- <- na.omit(---)
+
+```
+
+10. Check the summary of *crdata_updated*. Can you spot any missing values?
+
+```{r message=FALSE, eval=FALSE}
+
+# Check the summary of the dataset
+
+
+```
+
+11. Calculate the number of records removed from the dataset
+
+```{r message=FALSE, eval=FALSE}
+
+# Calculate the number of removed records
+nrow(---)-nrow(---)
+
+```
+
+12. Let's illustrate the relation between two features; "Income" and "Raiting". For this task, we will use `ggplot()` function from `ggplot2`. `ggplot2` is included in the `tidyverse` package. `ggplot()` is built step by step by adding layers. The basic syntax of this function is given as follows:
+
+        ggplot(data, aes(x, y)) + <geom_function>()
+    
+- data corresponds to the dataset.
+- The `aes` argument stands for aesthetics. With `aes()` function, we can select the variables to plot (e.g. "Income" and "Raiting") and specify how to present them in the graph, e.g. as x and y positions or characteristics such as size and shape.
+- `<geom_function>()` is the graphical representation of the data in the plot (e.g. scatter chart, line chart, etc.). For instance, `geom_point()` adds a scatter plot and `geom_line()` is used for trend lines and time series.
+
+    In this task, we will use `geom_point()` to check the relation between variables "Income" and "Raiting".  
+
+```{r message=FALSE, eval = FALSE}
+
+# Use geom_point(color = "steelblue") to add a scatter plot with blue colour
+ggplot(crdata_updated, aes(x = ---, y = ---)) + geom_point(color= "steelblue")
+
+```
+
+`color= "steelblue"` sets the colour of the scatter plot.
